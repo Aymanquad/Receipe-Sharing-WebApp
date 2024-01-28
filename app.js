@@ -17,15 +17,12 @@ app.use(receipesRoute);
 
 
  
-app.listen(3000);
-// exports.Connection =  mongoose.connect('mongodb://0.0.0.0:27017/Receipes')
-//     .then(() => {
-//         console.log('Connected to MongoDB');
-        
-//         app.listen(3000, () => {
-//             console.log('Express server is running on port 3000');
-//         });
-//     })
-//     .catch((error) => {
-//         console.error('Error connecting to MongoDB:', error);
-//     });
+// app.listen(3000);
+mongoose.connect('mongodb+srv://mohammedaymanquadri:Ayman2004@cluster0.ig68fbt.mongodb.net/?retryWrites=true&w=majority')
+    .then(() => {
+        console.log('Connected to MongoDB !'); 
+        app.listen(3000);
+    })
+    .catch((error) => {
+        console.error('Error connecting to MongoDB:', error);
+    });
