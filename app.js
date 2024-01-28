@@ -8,12 +8,12 @@ app.set('views' , 'views');
 
 const mongoose = require('mongoose');
 
-const receipesRoute = require('./routes/receipes');
+const recipesRoute = require('./routes/recipes');
 
 app.use(bodyParser.urlencoded({extended:false}));   
 app.use(express.static(path.join(__dirname , 'public'))); 
 
-app.use(receipesRoute);
+app.use(recipesRoute);
 
 
  
