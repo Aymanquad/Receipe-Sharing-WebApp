@@ -1,5 +1,5 @@
-<%- include('includes/boilerplate.ejs') %>
-<%- include('includes/navbar.ejs') %>
+<%- include('../includes/boilerplate.ejs') %>
+<%- include('../includes/navbar.ejs') %>
 
 
 <!-- 1st Section -->
@@ -22,7 +22,7 @@
         <div class="col-md-4 mb-5">
             <div class="my-images my-image1">
                 <div class="recipe">
-                    <h5><a href="">Gordan Ramsay</a></h5>
+                    <h5><a href="/gordan-ramsay">Gordan Ramsay</a></h5>
                   </div>
             </div>
         </div>
@@ -134,11 +134,8 @@
   </section>
 
   <!-- 6th Section (Footer) -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; Recipe Sharing WebApp</p>
-    </div>
-  </footer>
+  <%- include('../includes/footer.ejs') %>
+
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

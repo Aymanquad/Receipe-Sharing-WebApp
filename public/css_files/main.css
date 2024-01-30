@@ -1,5 +1,5 @@
 body {
-    background-color: #E6E6FA; /* Mint Green */
+    background-color: #E6E6FA; 
 }
 
 section{
@@ -44,6 +44,11 @@ background-color: #343a40;
 color: white;
 text-align: center;
 padding: 20px 0;
+
+position: relative;
+left: 0;
+bottom: 0;
+width: 100%;
 }
 
 .my-img-expand{
@@ -121,9 +126,6 @@ padding: 20px 0;
     box-shadow: 2px 6px 7px 3px #343a40;
     
 }
-
-
-
 
 
 
