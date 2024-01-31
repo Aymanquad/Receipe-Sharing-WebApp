@@ -18,6 +18,7 @@ exports.getMyRecipes = (req ,res , next)=>{
       res.render('recipe_stuff/my_recipes', { 
         pgTitle: 'My Recipes',
         path: '/my-recipes',
+        errorMsg : 'hi',
       });
 }
 

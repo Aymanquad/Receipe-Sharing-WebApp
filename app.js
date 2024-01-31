@@ -16,12 +16,13 @@ const csrfProtection = csurf();
 app.use(flash());
 
 const webApp = new MongoDBStore({
-    uri : `mongodb+srv://mohammedaymanquadri:Ayman2004@cluster0.ig68fbt.mongodb.net/?retryWrites=true&w=majority`,
+    uri : `mongodb+srv://mohammedaymanquadri:Ayman2004@cluster0.ig68fbt.mongodb.net/Recipe_WebApp`,
     collection : "sessions"   // collection name 
 });
 
 const errorRoute = require('./controllers/error');
 const recipesRoute = require('./routes/recipes');
+const authRoute = require('./routes/auth');
 const User = require('./models/user');
 
 app.use(bodyParser.urlencoded({extended:false}));   
@@ -37,11 +38,12 @@ app.use(
 
 
 app.use(recipesRoute);
+app.use(authRoute);
 app.use(errorRoute.get404); 
 
  
 // app.listen(3000);
-mongoose.connect('mongodb+srv://mohammedaymanquadri:Ayman2004@cluster0.ig68fbt.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://mohammedaymanquadri:Ayman2004@cluster0.ig68fbt.mongodb.net/Recipe_WebApp')
     .then(() => {
         console.log('Connected to MongoDB !'); 
         app.listen(3000);
