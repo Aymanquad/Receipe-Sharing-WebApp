@@ -9,6 +9,14 @@
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="bg-custom-blue p-4 rounded">
+
+            <% if(errorMsg){ %>
+                <div class="user-message user-message--error">
+                    <%= errorMsg %>
+                </div>
+            <% } %>
+            
+
             <form class="login-form" action="/signup" method="post">
                 <div class="mb-3">
                     <label for="name" class="form-label custom-label">Name</label>
