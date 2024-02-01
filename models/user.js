@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
+    id : {
+        type : mongoose.Schema.Types.ObjectId ,
+    },
     name: {
         type: String,
         required: true
@@ -18,7 +21,13 @@ const userSchema = mongoose.Schema({
     },
     my_favourites :{
         type: Array,
-    }
+    },
+    resetToken : {
+        type : String,
+    },
+    resetTokenExpiry : {
+        type : String,
+    },
 
 })
 

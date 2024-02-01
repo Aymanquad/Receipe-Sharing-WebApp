@@ -5,6 +5,7 @@
 
     <div class="container d-flex justify-content-center align-items-center" style="height: 10vh;">
         <form action="/add-recipe" method="get">
+          <input type="hidden" name="_csrf" value="<%=csrfToken %>">
           <button type="submit" class="btn btn-primary btn-lg">Add a recipe!</button>
         </form>
     </div>
