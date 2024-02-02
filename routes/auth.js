@@ -14,10 +14,13 @@ router.post('/login',authController.postLogin);
 
 router.post('/logout',authController.postLogout);
 
-
 router.get('/reset',authController.getresetPasswordPage);
 
-router.get('/new-password',authController.getNewPasswordPage);
+router.get('/reset/:token',authController.getNewPasswordPage);
+
+router.post('/reset',authController.postresetPasswordPage);
+
+router.post('/new-password',authController.postNewPasswordPage);
 
 
 module.exports = router;
