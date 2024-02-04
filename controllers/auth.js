@@ -129,14 +129,7 @@ exports.postLogin = (req,res,next) =>{
                     })
                 
             } 
-            // else{ //not a user 
-                
-            //     req.flash('err','Invalid email or password.'); 
-            //     return res.redirect('/login');
-                  
-            // }
-
-
+            
         })
         .catch(err=>{
             console.log(err);
@@ -146,12 +139,16 @@ exports.postLogin = (req,res,next) =>{
 
 
 
-exports.postLogout = (req ,res , next)=>{
-    req.session.destroy((err) =>{
-        if(err){console.log(err);}
-        res.redirect('/');
-      });
+exports.postLogout = (req, res, next) => {
+  req.session.destroy((err) => {
+      if (err) {
+          console.error("Error destroying session:", err);
+          return next(err);
+      }
+      res.redirect('/');
+  });
 };
+
 
 
 

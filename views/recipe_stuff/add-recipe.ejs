@@ -29,6 +29,15 @@
                         <label for="recipe" class="form-label custom-label">Recipe:</label>
                         <textarea name="recipe" id="recipe" class="form-control" rows="5"><%if(editing) {%><%= recipe.description %><% } %></textarea>
                     </div>
+
+                    <br>
+                    <div class="mb-3">
+                        <label for="visibility" class="form-label custom-label">Recipe Visibility:</label>
+                        <select name="visibility" id="visibility" class="form-select">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                    </div>
                     
                 <br>
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
