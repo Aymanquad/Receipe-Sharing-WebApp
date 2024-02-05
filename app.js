@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname , 'public'))); 
 
 app.use(
-    session({ secret: 'my secret' , resave: false , saveUninitialized : false , store : webApp }) // resave and saveUninitialized are kept false in order to improve efficiency and provide more security as it does not change with every req change . 
+    session({ secret: 'my secret' , resave: false , saveUninitialized : true , store : webApp }) // resave and saveUninitialized are kept false in order to improve efficiency and provide more security as it does not change with every req change . 
 );
  
 app.use(csrfProtection);
@@ -45,6 +45,8 @@ app.use((req , res , next) =>{
 
 app.use((req, res, next) => {
     if(!req.session.user) {
+        // req.session.destroy();
+        // console.log("session destroyed !");
         return next();
     }
 

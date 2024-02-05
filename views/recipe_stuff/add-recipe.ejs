@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="bg-custom-blue p-4 rounded">
-                <form class="recipe-form" action="<%if(editing) {%>edit-recipe<% } else {  %>add-recipe<% } %>" method="POST">
+                <form class="recipe-form" action="<%if(editing){%>/edit-recipe<% } else {  %>/add-recipe<% } %>" method="POST">
                     <div class="mb-3">
                         <label for="title" class="form-label custom-label">Title</label>
                         <input type="text" name="title" id="title" class="form-control" value="<%if(editing) {%><%= recipe.title %> <% } %>">
@@ -19,11 +19,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label custom-label">Time Required (in hours)</label>
-                        <input type="text" name="price" id="price" class="form-control" step="0.01" value="<%if(editing) {%> <%= recipe.price%> <% } %>">
+                        <input type="text" name="time" id="time" class="form-control" step="0.01" value="<%if(editing) {%> <%= recipe.price%> <% } %>">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label custom-label">Ingredients required:</label>
-                        <textarea name="description" id="description" class="form-control" rows="4"><%if(editing) {%><%= recipe.description %><% } %></textarea>
+                        <textarea name="ingredients" id="ingredients" class="form-control" rows="4"><%if(editing) {%><%= recipe.description %><% } %></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="recipe" class="form-label custom-label">Recipe:</label>
@@ -40,6 +40,7 @@
                     </div>
                     
                 <br>
+                <input type="hidden" name="recipeid" value="<%=recipeId%>">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button class="btn btn-primary" type="submit"><% if (editing) { %>Update Recipe<% } else { %>Add Recipe<% } %></button>
                 

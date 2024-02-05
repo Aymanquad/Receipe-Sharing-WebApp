@@ -148,7 +148,7 @@ exports.postLogout = (req, res, next) => {
       res.redirect('/');
   });
 };
-
+ 
 
 
 
@@ -188,7 +188,7 @@ exports.postresetPasswordPage = (req,res,next) =>{
             //user is found with that email
             user.resetToken = token;
             user.resetTokenExpiry = Date.now() + 3600000 ;    // 3600000ms is 1 hr
-            console.log(token);
+            //console.log(token);
             return user.save()
             .then(result =>{
                 res.redirect('/login');

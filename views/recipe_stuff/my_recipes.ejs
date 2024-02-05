@@ -1,11 +1,41 @@
 <%- include('../includes/boilerplate.ejs') %>
 <%- include('../includes/navbar.ejs') %>
-    <br><br><br>
-    <h2 style="text-align: center;">Inside My recipes</h2>
+<br><br><br>
 
-    <div class="container d-flex justify-content-center align-items-center" style="height: 10vh;">
-        <form action="/add-recipe" method="get">
-          <input type="hidden" name="_csrf" value="<%=csrfToken %>">
-          <button type="submit" class="btn btn-primary btn-lg">Add a recipe!</button>
-        </form>
+<% if(recipe_arr.length == 0){ %>
+  <h2 style="text-align: center;">No recipes present !</h2>
+<% } %>
+
+<div class="container d-flex justify-content-center align-items-center" style="height: 10vh;">
+    <form action="/add-recipe" method="get">
+      <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+      <button type="submit" class="btn btn-primary btn-lg">Add a recipe!</button>
+    </form>
+</div>
+
+<div class="container">
+  <% for(recipe of recipe_arr){ %>
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="card m-2" style="width: 22rem; background-image: url('<%= recipe.imageUrl %>'); background-repeat: no-repeat; background-size: cover; background-position: center;">
+          <div class="card-body my-filter">
+            <h5 class="card-title text-white"><%= recipe.title %></h5>
+            <p class="card-text text-white"><%= recipe.time_req %></p>
+            <p class="card-text text-white"><%= recipe.visibility %></p>
+
+            <div class="card__actions d-flex justify-content-end">
+              <a href="/edit-recipe/<%= recipe.id %>" class="btn btn-sm btn-outline-light me-2 mr-2">Edit</a>
+              <form action="/delete-recipe" method="POST">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <input type="hidden" name="recipeId" value="<%= recipe.id %>">
+                  <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+              </form>
+          </div>
+          
+
+          </div>
+        </div>
+      </div>
     </div>
+  <% } %>
+</div>

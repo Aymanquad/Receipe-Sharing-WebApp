@@ -13,5 +13,9 @@ router.get('/my-recipes' , Auth ,recipeController.getMyRecipes);
 
 router.get('/add-recipe', Auth ,recipeController.getAddrecipe);
 
+router.post('/add-recipe', Auth ,recipeController.postAddrecipe);
+
+router.post('/delete-recipe' , Auth , recipeController.postDeleteRecipe); 
+
 
 module.exports = router;
