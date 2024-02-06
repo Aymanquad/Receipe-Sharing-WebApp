@@ -24,8 +24,11 @@
             <p class="card-text text-white"><%= recipe.visibility %></p>
 
             <div class="card__actions d-flex justify-content-end">
-              <a href="/edit-recipe/<%= recipe.id %>" class="btn btn-sm btn-outline-light me-2 mr-2">Edit</a>
-              <form action="/delete-recipe" method="POST">
+              <form action="/edit-recipe/<%= recipe.id %>" method="GET">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn btn-sm btn-outline-light me-2 mr-2">Edit</button>
+              </form>
+                <form action="/delete-recipe" method="POST">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <input type="hidden" name="recipeId" value="<%= recipe.id %>">
                   <button class="btn btn-sm btn-danger" type="submit">Delete</button>

@@ -92,3 +92,67 @@ exports.postDeleteRecipe = (req, res, next) => {
 
   return res.redirect('/');
 }
+
+
+exports.getEditRecipe = (req ,res, next)=>{
+  const recipeId = req.params.recipeId ;
+  const recipes = req.user.my_recipes;
+
+  // console.log("Inside diss");
+
+
+  for (let i = 0; i < recipes.length; i++) {
+    if (recipes[i].id === recipeId) {
+        req.user.save()
+            .then(result => {
+              console.log("found recipe!");
+              res.render('recipe_stuff/add-recipe', { 
+                pgTitle: 'Update a Recipe',
+                path: '/edit-recipe',
+                editing : true,
+                recipeId : recipeId,
+              });
+            })
+            .catch(err => {
+                console.log(err);
+                return res.redirect('/');
+            });
+        return; // Exit the loop after removing the recipe
+    }
+  }
+
+  return res.redirect('/');
+};
+
+
+exports.postEditRecipe = (req ,res, next) =>{
+  const recipes = req.user.my_recipes;
+  
+  const title = req.body.title ;
+  const image= req.body.imageUrl;
+  const time= req.body.time ;
+  const ingredients= req.body.ingredients
+  const recipe= req.body.recipe ;
+  const visibility = req.body.visibility;
+  const recipe_id = req.body.recipeId ;
+
+  // console.log(recipe_id);
+  
+  const recipe_data = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id};
+
+  for (let i = 0; i < recipes.length; i++) {
+    if (recipes[i].id === recipe_id) {
+        recipes[i] = recipe_data;
+        req.user.save()
+          .then(result => {
+            req.session.user = req.user ;
+            return res.redirect('/my-recipes');
+          })
+          .catch(err => {
+              console.log(err);              
+          });
+        return; // Exit the loop after removing the recipe
+    }
+  } 
+  res.redirect('/');
+}

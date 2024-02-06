@@ -19,15 +19,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label custom-label">Time Required (in hours)</label>
-                        <input type="text" name="time" id="time" class="form-control" step="0.01" value="<%if(editing) {%> <%= recipe.price%> <% } %>">
+                        <input type="text" name="time" id="time" class="form-control" step="0.01" value="<%if(editing) {%> <%= recipe.time_req%> <% } %>">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label custom-label">Ingredients required:</label>
-                        <textarea name="ingredients" id="ingredients" class="form-control" rows="4"><%if(editing) {%><%= recipe.description %><% } %></textarea>
+                        <textarea name="ingredients" id="ingredients" class="form-control" rows="4"><%if(editing) {%><%= recipe.ingredients %><% } %></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="recipe" class="form-label custom-label">Recipe:</label>
-                        <textarea name="recipe" id="recipe" class="form-control" rows="5"><%if(editing) {%><%= recipe.description %><% } %></textarea>
+                        <textarea name="recipe" id="recipe" class="form-control" rows="5"><%if(editing) {%><%= recipe.recipe %><% } %></textarea>
                     </div>
 
                     <br>
@@ -46,7 +46,7 @@
                 
                 <br>
                 <% if (editing) { %>
-                    <input type="hidden" name="recipeId" value="<%= recipe._id %>">
+                    <input type="hidden" name="recipeId" value="<%= recipe.id %>">
                 <% } %>
             </form>
         </div> <br>

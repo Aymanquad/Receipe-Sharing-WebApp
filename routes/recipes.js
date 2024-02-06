@@ -17,5 +17,10 @@ router.post('/add-recipe', Auth ,recipeController.postAddrecipe);
 
 router.post('/delete-recipe' , Auth , recipeController.postDeleteRecipe); 
 
+router.get('/edit-recipe/:recipeId', Auth ,recipeController.getEditRecipe);
+
+router.post('/edit-recipe', Auth ,recipeController.postEditRecipe);
+
+
 
 module.exports = router;
