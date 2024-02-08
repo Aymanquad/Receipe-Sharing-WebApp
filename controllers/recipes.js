@@ -1,17 +1,17 @@
 
 
 exports.mainPg = (req ,res , next)=>{
-        res.render('recipe_stuff/index', { 
-          pgTitle: 'Recipes',
-          path: '/',
-        });
+  res.render('recipe_stuff/index', { 
+    pgTitle: 'Recipes',
+    path: '/',
+  });
 }
 
 exports.getChefs = (req ,res , next)=>{
-      res.render('recipe_stuff/chefs', { 
-        pgTitle: 'Chefs',
-        path: '/chefs',
-      });
+  res.render('recipe_stuff/chefs', { 
+    pgTitle: 'Chefs',
+    path: '/chefs',
+  });
 }
 
 exports.getMyRecipes = (req ,res , next)=>{
@@ -155,4 +155,24 @@ exports.postEditRecipe = (req ,res, next) =>{
     }
   } 
   res.redirect('/');
+}
+
+
+exports.getDetailsOfRecipe = (req ,res , next) =>{
+  const recipeId = req.params.recipeId ;
+  const recipes = req.user.my_recipes;
+  let recipeObj ;
+
+  for (let i = 0; i < recipes.length; i++) {
+    if (recipes[i].id === recipeId) {
+      recipeObj = recipes[i];
+      console.log("recipe obj sent !");
+    }
+  }
+  res.render('recipe_stuff/recipe-details', { 
+    pgTitle: 'Recipe Details',
+    path: '/details',
+    recipeId : recipeId,
+    recipeObj : recipeObj,
+  });
 }

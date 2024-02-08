@@ -1,0 +1,48 @@
+<%- include('../includes/boilerplate.ejs') %>
+<%- include('../includes/navbar.ejs') %>
+<link rel="stylesheet" href="/css_files/details.css">
+
+
+<br><br>
+
+<div class="container text-center my-4">
+    <h1 class="recipe-title"><%= recipe.title %></h1>
+</div>
+
+<div class="container recipe-details-container my-5">
+    <div class="row">
+        <!-- Large Image -->
+        <div class="col-lg-6 d-flex justify-content-center align-items-center">
+            <img src="<%= recipeObj.imageUrl %>" class="img-fluid rounded recipe-image" alt="Recipe Image">
+        </div>
+
+        <!-- Ingredients and Recipe -->
+        <div class="col-lg-4 recipe-details">
+            <h2>Ingredients</h2>
+            <ul>
+                <% for (ingredient of recipeObj.ingredients.split(',')) { %>
+                    <li><%= ingredient.trim() %></li>
+                <% } %>
+            </ul>
+            
+            <h2>Recipe</h2>
+            <p><%= recipeObj.recipe %></p>
+
+            <!-- Review Stars -->
+            <div class="rating">
+                <% for (let i = 0; i < 5; i++) { %>
+                    <%// if (i < rating) { %>
+                        <span class="fa fa-star checked"></span>
+                    <%// } else { %>
+                        <span class="fa fa-star"></span>
+                    <%// } %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+<br><br>
+
+<%- include('../includes/footer.ejs') %>

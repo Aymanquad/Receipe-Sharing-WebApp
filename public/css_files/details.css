@@ -1,0 +1,57 @@
+body{
+    background: url('https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.recipe-details-container {
+    background-color: rgba(46, 46, 46, 0.618);
+    border: 1px solid #2c3e50; 
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    backdrop-filter: blur(7px);
+    padding: 100px;
+}
+
+.recipe-title {
+    font-family: 'Indie Flower', cursive;
+    color: #2c3e50; 
+    margin-bottom: 30px;
+}
+
+.recipe-image {
+    border-radius: 15px; /* Rounded corners for the image */
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5); /* Add a subtle shadow */
+}
+
+.recipe-details {
+    font-family: 'Roboto', sans-serif; 
+    font-size: 1.34rem;
+    color: #ffffff; 
+}
+
+.recipe-details h2 {
+    color: #edff88; /* Red color for section headings */
+}
+
+.rating {
+    color: #f1c40f; /* Yellow color for stars */
+}
+
+.rating .fa-star {
+    font-size: 24px; /* Increase star size */
+}
+
+.rating .fa-star.checked {
+    color: #f39c12; /* Orange color for checked stars */
+}
+
+
+@media (max-width : 450px){
+    .recipe-details-container {
+        padding: 18px;
+    }
+    .recipe-details {
+        font-size: 0.7rem;
+    }
+}

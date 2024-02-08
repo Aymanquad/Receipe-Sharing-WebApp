@@ -19,7 +19,9 @@
       <div class="col-md-5">
         <div class="card m-2" style="width: 22rem; background-image: url('<%= recipe.imageUrl %>'); background-repeat: no-repeat; background-size: cover; background-position: center;">
           <div class="card-body my-filter">
-            <h5 class="card-title text-white"><%= recipe.title %></h5>
+            <a href="/details/<%= recipe.id %>">
+              <h5 class="card-title text-white"><%= recipe.title %></h5>
+            </a>
             <p class="card-text text-white"><%= recipe.time_req %></p>
             <p class="card-text text-white"><%= recipe.visibility %></p>
 

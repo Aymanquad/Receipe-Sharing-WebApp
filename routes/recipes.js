@@ -21,6 +21,8 @@ router.get('/edit-recipe/:recipeId', Auth ,recipeController.getEditRecipe);
 
 router.post('/edit-recipe', Auth ,recipeController.postEditRecipe);
 
+router.get('/details/:recipeId', Auth ,recipeController.getDetailsOfRecipe);
+
 
 
 module.exports = router;
