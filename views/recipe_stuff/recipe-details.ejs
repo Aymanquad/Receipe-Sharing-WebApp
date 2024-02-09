@@ -2,7 +2,6 @@
 <%- include('../includes/navbar.ejs') %>
 <link rel="stylesheet" href="/css_files/details.css">
 
-
 <br><br>
 
 <div class="container text-center my-4">
@@ -11,22 +10,28 @@
 
 <div class="container recipe-details-container my-5">
     <div class="row">
-        <!-- Large Image -->
+        <!-- Image Column -->
         <div class="col-lg-6 d-flex justify-content-center align-items-center">
             <img src="<%= recipeObj.imageUrl %>" class="img-fluid rounded recipe-image" alt="Recipe Image">
         </div>
-
-        <!-- Ingredients and Recipe -->
-        <div class="col-lg-4 recipe-details">
+    
+        <!-- Ingredients Column -->
+        <div class="col-lg-6 recipe-details">
             <h2>Ingredients</h2>
             <ul>
                 <% for (ingredient of recipeObj.ingredients.split(',')) { %>
                     <li><%= ingredient.trim() %></li>
                 <% } %>
             </ul>
-            
+        </div>
+    </div>
+    
+
+    <!-- Recipe Column -->
+    <div class="row pt-4">
+        <div class="col-lg-12 recipe-details">
             <h2>Recipe</h2>
-            <p><%= recipeObj.recipe %></p>
+            <p class="recipe-text"><%= recipeObj.recipe %></p>
 
             <!-- Review Stars -->
             <div class="rating">

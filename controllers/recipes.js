@@ -166,7 +166,7 @@ exports.getDetailsOfRecipe = (req ,res , next) =>{
   for (let i = 0; i < recipes.length; i++) {
     if (recipes[i].id === recipeId) {
       recipeObj = recipes[i];
-      console.log("recipe obj sent !");
+      // console.log("recipe obj sent !");
     }
   }
   res.render('recipe_stuff/recipe-details', { 
@@ -176,3 +176,5 @@ exports.getDetailsOfRecipe = (req ,res , next) =>{
     recipeObj : recipeObj,
   });
 }
+
+// add public factor when perfoming Crud operations on my_recipes . Also add stars/rating factor somewhere in recipes .
