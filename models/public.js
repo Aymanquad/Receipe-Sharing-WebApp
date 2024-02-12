@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const publicSchema = mongoose.Schema({
     
-    recipeObj : {
-        type: Object,
+    recipeObjects : {
+        type: Array,
         required: true
     },
     // stars : {

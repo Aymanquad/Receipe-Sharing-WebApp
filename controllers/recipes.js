@@ -1,4 +1,4 @@
-
+const Public = require('../models/public');
 
 exports.mainPg = (req ,res , next)=>{
   res.render('recipe_stuff/index', { 
@@ -54,6 +54,21 @@ exports.postAddrecipe = (req,res,next)=>{
   // console.log(recipe_id);
   
   const recipe_data = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id};
+  
+  console.log(visibility);
+  if(visibility == 'public'){
+    const public_arr = [ recipe_data ];
+    Public.findById('65ca500dcb91aba606f81d75')    // have to add hash key here
+      .then(result =>{
+        console.log("Addinf to public db");
+
+        result.recipeObjects.push(recipe_data);
+        result.save();
+      });
+    // const addInPublic = new Public(public_arr);
+    // addInPublic.save();
+  }
+  
   //console.log(req.user.my_recipes);
   req.user.my_recipes.push(recipe_data);
   req.user.save() 
@@ -72,6 +87,7 @@ exports.postAddrecipe = (req,res,next)=>{
 exports.postDeleteRecipe = (req, res, next) => {
   const recipe_id = req.body.recipeId;
   const recipes = req.user.my_recipes;
+  // const  public_recipes = Public.
 
   for (let i = 0; i < recipes.length; i++) {
       if (recipes[i].id === recipe_id) {
@@ -86,7 +102,7 @@ exports.postDeleteRecipe = (req, res, next) => {
                   console.log(err);
                   return res.redirect('/');
               });
-          return; // Exit the loop after removing the recipe
+          return; 
       }
   }
 
@@ -109,6 +125,7 @@ exports.getEditRecipe = (req ,res, next)=>{
               res.render('recipe_stuff/add-recipe', { 
                 pgTitle: 'Update a Recipe',
                 path: '/edit-recipe',
+                recipe : recipes[i],
                 editing : true,
                 recipeId : recipeId,
               });
