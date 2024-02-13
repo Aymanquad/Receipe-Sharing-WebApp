@@ -1,4 +1,6 @@
 const Public = require('../models/public');
+const crypto = require('crypto');
+
 
 exports.mainPg = (req ,res , next)=>{
   res.render('recipe_stuff/index', { 
@@ -24,21 +26,26 @@ exports.getMyRecipes = (req ,res , next)=>{
       });
 }
 
-exports.getAddrecipe = (req,res,next)=>{
-  const recipe_id = req.user._id.toString() ;
-  const recipe_arr_length = req.user.my_recipes.length + 1;
 
-  const calculation = parseInt(recipe_id, 16) * recipe_arr_length ;
-  const recipeId = calculation.toPrecision(5);
-  // console.log(recipeId);
+exports.getAddrecipe = (req, res, next) => {
+    const user = req.user;
+    const recipe_arr_length = user.my_recipes.length + 1;
 
-  res.render('recipe_stuff/add-recipe', { 
-    pgTitle: 'Add a Recipe',
-    path: '/Add-recipe',
-    editing : false,
-    recipeId : recipeId,
-  });
+    // Generate a unique hash for the user using their email or username
+    const uniqueHash = crypto.createHash('sha256').update(user.email || user.name).digest('hex');
+
+    // Calculate the recipe ID incorporating the unique hash
+    const calculation = parseInt(user._id.toString(), 16) * recipe_arr_length * parseInt(uniqueHash.substring(0, 8), 16);
+    const recipeId = calculation.toPrecision(5);
+
+    res.render('recipe_stuff/add-recipe', {
+        pgTitle: 'Add a Recipe',
+        path: '/Add-recipe',
+        editing: false,
+        recipeId: recipeId,
+    });
 }
+
 
 
 
@@ -57,17 +64,16 @@ exports.postAddrecipe = (req,res,next)=>{
   
   console.log(visibility);
   if(visibility == 'public'){
-    const public_arr = [ recipe_data ];
-    Public.findById('65ca500dcb91aba606f81d75')    // have to add hash key here
-      .then(result =>{
-        console.log("Addinf to public db");
+    console.log("Adding to public db");
 
-        result.recipeObjects.push(recipe_data);
-        result.save();
-      });
+    const public_recipe_data = {...recipe_data , madeBy : req.user.name };
+
+    req.public.recipeObjects.push(public_recipe_data);
+    req.public.save();
+  };
     // const addInPublic = new Public(public_arr);
     // addInPublic.save();
-  }
+  
   
   //console.log(req.user.my_recipes);
   req.user.my_recipes.push(recipe_data);
@@ -87,10 +93,24 @@ exports.postAddrecipe = (req,res,next)=>{
 exports.postDeleteRecipe = (req, res, next) => {
   const recipe_id = req.body.recipeId;
   const recipes = req.user.my_recipes;
-  // const  public_recipes = Public.
+  const  public_recipes = req.public.recipeObjects;
 
   for (let i = 0; i < recipes.length; i++) {
       if (recipes[i].id === recipe_id) {
+
+          //public part
+          if(recipes[i].visibility == 'public'){
+            for (let i = 0; i < public_recipes.length; i++) {
+              if (public_recipes[i].id === recipe_id) {
+                  public_recipes.splice(i, 1); 
+                  req.public.save();
+                  console.log("recipe removed from public as well !");
+                  break;
+                }
+              return
+            }
+          }
+
           recipes.splice(i, 1); 
           req.user.save()
               .then(result => {
@@ -144,6 +164,8 @@ exports.getEditRecipe = (req ,res, next)=>{
 
 exports.postEditRecipe = (req ,res, next) =>{
   const recipes = req.user.my_recipes;
+  const  public_recipes = req.public.recipeObjects;
+
   
   const title = req.body.title ;
   const image= req.body.imageUrl;
@@ -155,20 +177,56 @@ exports.postEditRecipe = (req ,res, next) =>{
 
   // console.log(recipe_id);
   
-  const recipe_data = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id};
+  const recipe_data2 = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id};
+  const public_recipe_data2 = {...recipe_data2 , madeBy : req.user.name };
+  console.log(" public data  is ...",public_recipe_data2);
+
+
+  //public part
+  if(visibility == 'public'){
+    let flag = 0;
+    for (let i = 0; i < public_recipes.length; i++) {
+      if(public_recipes[i].id === recipe_id) {
+          public_recipes[i] = public_recipe_data2;
+          req.public.save();
+          console.log("recipe updated in public as well !");
+          flag = 1;
+          break;
+        }
+    }
+
+    if(flag == 0){  //recipe made from private to public 
+      req.public.recipeObjects.push(public_recipe_data2);
+      req.public.save();
+      console.log("recipe changed to public !");
+    }
+  }
+
+  if(visibility == 'private'){   // recipe made from public to private 
+    for (let i = 0; i < public_recipes.length; i++) {
+      if (public_recipes[i].id === recipe_id) {
+          public_recipes.splice(i, 1); 
+          req.public.save();
+          console.log("recipe removed from public only!");
+          break;
+        }
+    }
+  }
+
 
   for (let i = 0; i < recipes.length; i++) {
     if (recipes[i].id === recipe_id) {
-        recipes[i] = recipe_data;
-        req.user.save()
-          .then(result => {
-            req.session.user = req.user ;
-            return res.redirect('/my-recipes');
-          })
-          .catch(err => {
-              console.log(err);              
-          });
-        return; // Exit the loop after removing the recipe
+
+      recipes[i] = recipe_data2;
+      req.user.save()
+        .then(result => {
+          req.session.user = req.user ;
+          return res.redirect('/my-recipes');
+        })
+        .catch(err => {
+            console.log(err);              
+        });
+      return; // Exit the loop after removing the recipe
     }
   } 
   res.redirect('/');
@@ -178,6 +236,8 @@ exports.postEditRecipe = (req ,res, next) =>{
 exports.getDetailsOfRecipe = (req ,res , next) =>{
   const recipeId = req.params.recipeId ;
   const recipes = req.user.my_recipes;
+  const username = req.user.name;
+  const public_recipes = req.public.recipeObjects ;
   let recipeObj ;
 
   for (let i = 0; i < recipes.length; i++) {
@@ -186,6 +246,15 @@ exports.getDetailsOfRecipe = (req ,res , next) =>{
       // console.log("recipe obj sent !");
     }
   }
+
+  if(recipeObj === undefined){   //To access data from public (accessing from public page)
+    for (let i = 0; i < public_recipes.length; i++) {
+      if (public_recipes[i].id === recipeId) {
+        recipeObj = public_recipes[i];
+      }
+    }
+  }
+
   res.render('recipe_stuff/recipe-details', { 
     pgTitle: 'Recipe Details',
     path: '/details',
@@ -194,4 +263,15 @@ exports.getDetailsOfRecipe = (req ,res , next) =>{
   });
 }
 
-// add public factor when perfoming Crud operations on my_recipes . Also add stars/rating factor somewhere in recipes .
+
+exports.getPublicRecipes = (req ,res , next)=>{
+  const PublicRecipes =  req.public.recipeObjects;
+
+      res.render('recipe_stuff/public-recipes', { 
+        pgTitle: 'Public Recipes',
+        path: '/public-recipes',
+        recipe_arr : PublicRecipes ,
+      });
+}
+
+// create similar recipes and delete old ones  . Also add stars/rating factor somewhere in recipes .

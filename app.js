@@ -22,6 +22,8 @@ const errorRoute = require('./controllers/error');
 const recipesRoute = require('./routes/recipes');
 const authRoute = require('./routes/auth');
 const User = require('./models/user');
+const Public = require('./models/public');
+
 
 
 
@@ -63,6 +65,22 @@ app.use((req, res, next) => {
             next (new Error(err));
         });
     
+});
+
+app.use((req, res, next) => {
+    Public.findById('65ca500dcb91aba606f81d75')
+        .then(public => {
+            if(!public) {
+                console.log("No public found !");
+                return ;
+            }
+
+            req.public = public;
+            next();
+            })
+        .catch(err => {
+            console.log(err);
+        });
 });
 
 

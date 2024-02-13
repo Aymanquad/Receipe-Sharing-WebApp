@@ -34,15 +34,13 @@
             <p class="recipe-text"><%= recipeObj.recipe %></p>
 
             <!-- Review Stars -->
-            <div class="rating">
+             <div class="rating">
                 <% for (let i = 0; i < 5; i++) { %>
-                    <%// if (i < rating) { %>
-                        <span class="fa fa-star checked"></span>
-                    <%// } else { %>
-                        <span class="fa fa-star"></span>
-                    <%// } %>
+                    <span class="fa fa-star" id="star<%= i + 1 %>"></span>
                 <% } %>
             </div>
+
+
         </div>
     </div>
 </div>
@@ -51,3 +49,34 @@
 <br><br>
 
 <%- include('../includes/footer.ejs') %>
+
+
+<script>
+    const stars = document.querySelectorAll('.fa-star');
+
+    stars.forEach((star, index) => {
+        star.addEventListener('mouseenter', () => {
+            highlightStars(index);
+        });
+
+        star.addEventListener('mouseleave', () => {
+            removeHighlight();
+        });
+
+        star.addEventListener('click', () => {
+            // Handle clicking on a star to select rating
+        });
+    });
+
+    function highlightStars(index) {
+        for (let i = 0; i <= index; i++) {
+            document.getElementById(`star${i + 1}`).classList.add('checked');
+        }
+    }
+
+    function removeHighlight() {
+        stars.forEach(star => {
+            star.classList.remove('checked');
+        });
+    }
+</script>

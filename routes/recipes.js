@@ -23,6 +23,8 @@ router.post('/edit-recipe', Auth ,recipeController.postEditRecipe);
 
 router.get('/details/:recipeId', Auth ,recipeController.getDetailsOfRecipe);
 
+router.get('/public-recipes' , Auth , recipeController.getPublicRecipes);
+
 
 
 module.exports = router;

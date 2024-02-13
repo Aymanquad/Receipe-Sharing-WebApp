@@ -132,6 +132,9 @@ width: 100%;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.89), rgba(0, 0, 0, 0));
 }
 
+.my_public_box{
+   width: 98% !important;
+}
 
 
 
