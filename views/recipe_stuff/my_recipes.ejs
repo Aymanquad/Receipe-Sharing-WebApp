@@ -22,7 +22,7 @@
             <a href="/details/<%= recipe_arr[i].id %>">
               <h5 class="card-title text-white"><%= recipe_arr[i].title %></h5>
             </a>
-            <p class="card-text text-white"><%= recipe_arr[i].time_req %></p>
+            <p class="card-text text-white"> ⏱️ <%= recipe_arr[i].time_req %> hours</p>
             <p class="card-text text-white"><%= recipe_arr[i].visibility %></p>
 
             <div class="card__actions d-flex justify-content-end">
@@ -47,7 +47,7 @@
             <a href="/details/<%= recipe_arr[i+1].id %>">
               <h5 class="card-title text-white"><%= recipe_arr[i+1].title %></h5>
             </a>
-            <p class="card-text text-white"><%= recipe_arr[i+1].time_req %></p>
+            <p class="card-text text-white"> ⏱️ <%= recipe_arr[i+1].time_req %> hours</p>
             <p class="card-text text-white"><%= recipe_arr[i+1].visibility %></p>
 
             <div class="card__actions d-flex justify-content-end">

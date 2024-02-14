@@ -25,6 +25,12 @@ router.get('/details/:recipeId', Auth ,recipeController.getDetailsOfRecipe);
 
 router.get('/public-recipes' , Auth , recipeController.getPublicRecipes);
 
+router.get('/my-favourites' , Auth , recipeController.getFavRecipes);
+
+router.post('/favourite-recipe' , Auth , recipeController.postAddToFavourites);
+
+router.post('/remove-from-favourites' , Auth , recipeController.postDeleteFromFavourites);
+
 
 
 module.exports = router;

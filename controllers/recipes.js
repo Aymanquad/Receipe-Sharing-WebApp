@@ -107,7 +107,6 @@ exports.postDeleteRecipe = (req, res, next) => {
                   console.log("recipe removed from public as well !");
                   break;
                 }
-              return
             }
           }
 
@@ -266,12 +265,79 @@ exports.getDetailsOfRecipe = (req ,res , next) =>{
 
 exports.getPublicRecipes = (req ,res , next)=>{
   const PublicRecipes =  req.public.recipeObjects;
+  const my_fav = req.user.my_favourites ;
 
       res.render('recipe_stuff/public-recipes', { 
         pgTitle: 'Public Recipes',
         path: '/public-recipes',
         recipe_arr : PublicRecipes ,
+        favourites : false,
+        my_fav : my_fav,
       });
 }
 
-// create similar recipes and delete old ones  . Also add stars/rating factor somewhere in recipes .
+exports.getFavRecipes = (req ,res , next)=>{
+  let FavRecipes =  req.user.my_favourites;
+
+  // if(FavRecipes == undefined){
+  //   FavRecipes = [];
+  // }
+  // console.log("fav recipes are..",FavRecipes);
+
+    res.render('recipe_stuff/public-recipes', { 
+      pgTitle: 'Favourite Recipes',
+      path: '/my-favourites',
+      recipe_arr : FavRecipes ,
+      favourites : true,
+    });
+}
+
+
+exports.postAddToFavourites = (req ,res , next)=>{
+  const recipeId  = req.body.recipeId;
+  const public_recipes = req.public.recipeObjects;
+  let recipe_Object
+  // const myfav = req.user.my_favourites ; 
+
+  for (let i = 0; i < public_recipes.length; i++) {
+    if (public_recipes[i].id === recipeId) {
+      recipe_Object = {...public_recipes[i] , madeBy : public_recipes[i].madeBy };
+    }
+  }
+  req.user.my_favourites.push(recipe_Object);
+  req.user.save()
+    .then(result =>{
+      req.session.user = req.user ;   
+      console.log("added to fav !!");
+      res.redirect('/public-recipes');
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+};
+
+
+
+exports.postDeleteFromFavourites = (req,res,next)=>{
+  const recipeId  = req.body.recipeId;
+  const myfav = req.user.my_favourites ; 
+
+  // console.log("recipeId is ...",recipeId);
+
+  for (let i = 0; i < myfav.length; i++) {
+    if (myfav[i].id === recipeId) {
+
+        myfav.splice(i, 1); 
+        req.user.save()
+            .then(result => {
+                req.session.user = req.user ;
+                console.log("Recipe removed from fav!");
+                return res.redirect('/my-favourites');
+            })
+            .catch(err => {
+                console.log(err);
+                return res.redirect('/');
+            });
+    }
+}
+}

@@ -136,6 +136,28 @@ width: 100%;
    width: 98% !important;
 }
 
+.heart-button {
+    border: none;
+    color: white;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .heart-button svg {
+    /* color: red; */
+    width: 24px;
+    height: 24px;
+  }
+  
+  .heart-button svg path {
+    transition: stroke 0.3s ease;
+  }
+  
+  .heart-button:hover svg path {
+    stroke: red; /* Change color on hover */
+  }
+  
 
 
 

@@ -16,9 +16,45 @@
               <a href="/details/<%= recipe_arr[j].id %>">
                 <h5 class="card-title text-white"><%= recipe_arr[j].title %></h5>
               </a>
-              <p class="card-text text-white"><%= recipe_arr[j].time_req %></p>
+              <p class="card-text text-white"> ⏱️ <%= recipe_arr[j].time_req %> hours</p>
 
               <p class="card-text text-white text-end" style="text-align: right;">-> By <%= recipe_arr[j].madeBy %></p>
+
+              <% if(!favourites){ %>
+              <form action="/favourite-recipe" method="post">
+                <input type="hidden" name="recipeId" value="<%= recipe_arr[j].id %>">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  
+                <% 
+                const fav = my_fav;
+                let flag = 0;
+                %>
+                <% for (let i = 0; i < fav.length; i++) {
+                  if (fav[i].id === recipe_arr[j].id) { 
+                    flag = 1 ;
+                                                            %>
+                    <h5>❤️</h5>
+                 <% } } %>
+
+                <% if(flag == 0){ %>
+                <button class="heart-button" type="submit">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.27 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.97 3.81 12 5.13C13.03 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.27 18.6 15.36 13.45 20.03L12 21.35Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <%} %>
+
+              </form>
+              <% }else{ %>
+                <form action="/remove-from-favourites" method="post">
+                  <input type="hidden" name="recipeId" value="<%= recipe_arr[j].id %>">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <button  class="btn btn-sm btn-danger text-end" style="text-align: right !important;" type="submit">Remove</button>
+                </form>
+              <% } %>
+              
+              
+
             </div>
           </div>
         </div>
@@ -26,5 +62,36 @@
     </div>
   <% } %>
 </div>
+
+
+<script>
+  // Attach click event handler to favorite buttons
+  // document.querySelectorAll('.favorite-button').forEach(button => {
+  //     button.addEventListener('click', async () => {
+  //         const recipeId = button.getAttribute('data-recipe-id');
+  //         try {
+  //             const response = await fetch('/favorite-recipe', {
+  //                 method: 'POST',
+  //                 headers: {
+  //                     'Content-Type': 'application/json'
+  //                 },
+  //                 body: JSON.stringify({ recipeId })
+  //             });
+  //             if (response.ok) {
+  //                 // Update UI to indicate recipe is favorited
+  //                 button.innerHTML = '<i class="fas fa-heart"></i>'; // Filled heart icon
+  //             }
+  //         } catch (error) {
+  //             console.error('Error:', error);
+  //         }
+  //     });
+  // });
+
+  // function addToFavorites(event) {
+  //   event.target.classList.add('my-heart-button');
+  //   // document.getElementsByClassName("heart-button");
+  //   console.log("shld be red");
+  // }
+</script>
 
 
