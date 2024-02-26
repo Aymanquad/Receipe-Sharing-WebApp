@@ -343,7 +343,7 @@ exports.postDeleteFromFavourites = (req,res,next)=>{
             });
     }
 }
-}
+};
 
 
 exports.addRating = (req, res, next) => {
@@ -351,42 +351,43 @@ exports.addRating = (req, res, next) => {
   const recipeId = req.body.recipeId;
   const public_recipes = req.public.recipeObjects;
   const user = req.user.name;
+  const ratingObj = { user, rating } ;
 
   console.log("recipe id and its rating is ...", recipeId, rating);
 
   for (let i = 0; i < public_recipes.length; i++){
-    if (public_recipes[i].id === recipeId) {
+    if (public_recipes[i].id == recipeId) {
       const recipe_ratings = public_recipes[i].ratings;
-
-      // public_recipes[i].recipe = " Ill see later bruh..";
 
       let flag = false;
       for (let j = 0; j < recipe_ratings.length; j++) {
-        if (recipe_ratings[j].username === user) {
-          // Update review
-          recipe_ratings[j].rating = rating;
+        if (recipe_ratings[j].user == user) {                                // Update review
           flag = true;
           console.log("Recipe rating updated");
+          recipe_ratings[j].rating = rating ;
           break; // Exit loop once updated
         }
       }
 
-      if (!flag) {
-        // New rating
-        recipe_ratings.push({ user, rating });
+      if (!flag) {                                                           // New rating
+        recipe_ratings.push(ratingObj);
         console.log("Recipe rating stored!");
+
       }
     }
+    req.public.recipeObjects[i] = public_recipes[i] ;     //saving manually
   }
-
+  // console.log(public_recipes[4]);
+  
 
   req.public.save()
     .then(() => {
       console.log("Data saved successfully");
-      res.redirect(`/details/${recipeId}`);
     })
     .catch(err => {
       console.error("Error:", err);
       res.status(500).send("Error occurred while saving data");
     });
+
+  res.redirect(`/details/${recipeId}`);
 }
