@@ -60,13 +60,13 @@ exports.postAddrecipe = (req,res,next)=>{
 
   // console.log(recipe_id);
   
-  const recipe_data = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id};
+  const recipe_data = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id , ratings : [] };
   
   console.log(visibility);
   if(visibility == 'public'){
     console.log("Adding to public db");
 
-    const public_recipe_data = {...recipe_data , madeBy : req.user.name };
+    const public_recipe_data = {...recipe_data , madeBy : req.user.name};
 
     req.public.recipeObjects.push(public_recipe_data);
     req.public.save();
@@ -176,7 +176,7 @@ exports.postEditRecipe = (req ,res, next) =>{
 
   // console.log(recipe_id);
   
-  const recipe_data2 = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id};
+  const recipe_data2 = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id , ratings : []};
   const public_recipe_data2 = {...recipe_data2 , madeBy : req.user.name };
   console.log(" public data  is ...",public_recipe_data2);
 
@@ -235,13 +235,14 @@ exports.postEditRecipe = (req ,res, next) =>{
 exports.getDetailsOfRecipe = (req ,res , next) =>{
   const recipeId = req.params.recipeId ;
   const recipes = req.user.my_recipes;
-  const username = req.user.name;
+  let username ;
   const public_recipes = req.public.recipeObjects ;
   let recipeObj ;
 
   for (let i = 0; i < recipes.length; i++) {
     if (recipes[i].id === recipeId) {
       recipeObj = recipes[i];
+      username = false ;
       // console.log("recipe obj sent !");
     }
   }
@@ -250,6 +251,7 @@ exports.getDetailsOfRecipe = (req ,res , next) =>{
     for (let i = 0; i < public_recipes.length; i++) {
       if (public_recipes[i].id === recipeId) {
         recipeObj = public_recipes[i];
+        username =  req.user.name;
       }
     }
   }
@@ -259,6 +261,7 @@ exports.getDetailsOfRecipe = (req ,res , next) =>{
     path: '/details',
     recipeId : recipeId,
     recipeObj : recipeObj,
+    userName : username, 
   });
 }
 
@@ -340,4 +343,50 @@ exports.postDeleteFromFavourites = (req,res,next)=>{
             });
     }
 }
+}
+
+
+exports.addRating = (req, res, next) => {
+  const rating = req.body.rating;
+  const recipeId = req.body.recipeId;
+  const public_recipes = req.public.recipeObjects;
+  const user = req.user.name;
+
+  console.log("recipe id and its rating is ...", recipeId, rating);
+
+  for (let i = 0; i < public_recipes.length; i++){
+    if (public_recipes[i].id === recipeId) {
+      const recipe_ratings = public_recipes[i].ratings;
+
+      // public_recipes[i].recipe = " Ill see later bruh..";
+
+      let flag = false;
+      for (let j = 0; j < recipe_ratings.length; j++) {
+        if (recipe_ratings[j].username === user) {
+          // Update review
+          recipe_ratings[j].rating = rating;
+          flag = true;
+          console.log("Recipe rating updated");
+          break; // Exit loop once updated
+        }
+      }
+
+      if (!flag) {
+        // New rating
+        recipe_ratings.push({ user, rating });
+        console.log("Recipe rating stored!");
+      }
+    }
+  }
+
+
+  req.public.save()
+    .then(() => {
+      console.log("Data saved successfully");
+      res.redirect(`/details/${recipeId}`);
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      res.status(500).send("Error occurred while saving data");
+    });
 }

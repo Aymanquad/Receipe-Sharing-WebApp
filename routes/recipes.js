@@ -31,6 +31,8 @@ router.post('/favourite-recipe' , Auth , recipeController.postAddToFavourites);
 
 router.post('/remove-from-favourites' , Auth , recipeController.postDeleteFromFavourites);
 
+router.post('/add-rating' , Auth , recipeController.addRating);
+
 
 
 module.exports = router;

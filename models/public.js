@@ -6,14 +6,8 @@ const publicSchema = mongoose.Schema({
         type: Array,
         required: true
     },
-    // stars : {
-    //     type: String,
-    //     required: true
-    // },
 
 })
-
-
 
 
 module.exports = mongoose.model('Public', publicSchema);
