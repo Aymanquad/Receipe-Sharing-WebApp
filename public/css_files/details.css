@@ -35,11 +35,6 @@ body{
     color: #ffffff; 
 }
 
-/* .my-details{
-    margin: 0%;
-    padding: 0px;
-    max-width: 100% !important;    
-} */
 
 
 .recipe-details h2 {
@@ -65,6 +60,18 @@ body{
     margin-right: 0; /* Remove right margin */
     /* Add any additional styling here */
 }
+
+
+ /* star rating stuff */
+ .star-rating li {
+    list-style-type: none;
+    float: right;
+    padding: 5px;
+    transition: color 0.2s;
+  }
+  .star-rating li:hover, .star-rating li.selected {
+    color: yellow;
+  }
 
 @media (max-width : 450px){
     .recipe-details-container {
