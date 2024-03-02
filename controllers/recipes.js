@@ -10,9 +10,10 @@ exports.mainPg = (req ,res , next)=>{
 }
 
 exports.getChefs = (req ,res , next)=>{
-  res.render('recipe_stuff/chefs', { 
+  res.render('recipe_stuff/search_recipes', { 
     pgTitle: 'Chefs',
-    path: '/chefs',
+    path: '/search_recipes',
+    results : [],
   });
 }
 
@@ -58,9 +59,8 @@ exports.postAddrecipe = (req,res,next)=>{
   const visibility = req.body.visibility;
   const recipe_id = req.body.recipeid ;
 
-  // console.log(recipe_id);
   
-  const recipe_data = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id , ratings : [] };
+  const recipe_data = { title : title , imageUrl : image  , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id , ratings : [] };
   
   console.log(visibility);
   if(visibility == 'public'){
@@ -173,10 +173,18 @@ exports.postEditRecipe = (req ,res, next) =>{
   const recipe= req.body.recipe ;
   const visibility = req.body.visibility;
   const recipe_id = req.body.recipeId ;
+  let ratings;
+
+  for(i=0; i<public_recipes.length ; i++){
+    if(public_recipes[i].title == title){
+      ratings = public_recipes[i].ratings ;
+    }
+  }
+
 
   // console.log(recipe_id);
   
-  const recipe_data2 = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id , ratings : []};
+  const recipe_data2 = { title : title , imageUrl : image , time_req : time , ingredients : ingredients , recipe : recipe , visibility : visibility  , id : recipe_id , ratings : ratings};
   const public_recipe_data2 = {...recipe_data2 , madeBy : req.user.name };
   console.log(" public data  is ...",public_recipe_data2);
 

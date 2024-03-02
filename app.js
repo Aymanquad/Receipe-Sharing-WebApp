@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const csrf = require('csurf');                         // to use csrf(cross site response forgery) tokens to provide security to users
 const flash = require('connect-flash');
 const session = require('express-session');
+const request = require('request');
 const mongoose = require('mongoose');
 const MongoDBStore = require('connect-mongodb-session')(session); //function
 
@@ -23,6 +24,7 @@ const recipesRoute = require('./routes/recipes');
 const authRoute = require('./routes/auth');
 const User = require('./models/user');
 const Public = require('./models/public');
+const { log } = require('console');
 
 
 
@@ -81,6 +83,33 @@ app.use((req, res, next) => {
         .catch(err => {
             console.log(err);
         });
+});
+
+
+
+app.post('/search', (req, res) => { // Use POST method instead of GET for form submission
+    const query = req.body.query;
+    const options = {
+        method: 'GET',
+        url: 'https://api.edamam.com/search',
+        qs: {
+            q: query,
+            app_id: '42911b65',
+            app_key: '933aebee2f1ef3125c5240b8f46a6fdf',
+            to: 18 // Limit the number of results
+        }
+    };
+
+    request(options, (error, response, body) => {
+        if (error) {
+            console.error(error);
+            res.render('error');
+        } else {
+            const data = JSON.parse(body);
+            console.log("data retreived is ...",data);
+            res.render('recipe_stuff/search_recipes', { pgTitle : 'Search' , query, results: data.hits });
+        }
+    });
 });
 
 

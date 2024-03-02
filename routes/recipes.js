@@ -7,7 +7,7 @@ const Auth = require('../auth_protection/auth_middleware');
 
 router.get('/', recipeController.mainPg);
 
-router.get('/chefs' , Auth ,recipeController.getChefs);
+router.get('/search_recipes' , Auth ,recipeController.getChefs);
 
 router.get('/my-recipes' , Auth ,recipeController.getMyRecipes);
 
