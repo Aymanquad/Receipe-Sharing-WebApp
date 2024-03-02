@@ -9,9 +9,9 @@ exports.mainPg = (req ,res , next)=>{
   });
 }
 
-exports.getChefs = (req ,res , next)=>{
+exports.getGlobalRecipes = (req ,res , next)=>{
   res.render('recipe_stuff/search_recipes', { 
-    pgTitle: 'Chefs',
+    pgTitle: 'GlobalRecipes',
     path: '/search_recipes',
     results : [],
   });

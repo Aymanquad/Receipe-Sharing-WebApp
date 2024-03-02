@@ -10,7 +10,7 @@
   <% for(let i = 0; i < recipe_arr.length; i+=3){ %>
     <div class="row justify-content-center">
       <% for(let j = i; j < i+3 && j < recipe_arr.length; j++) { %>
-        <div class="col-md-4">
+        <div class="col-lg-4 col-md-6 mb-3"> <!-- Adjusted column sizing -->
           <div class="card mx-3 my-3" style="width: 21rem; height: 11rem; background-image: url('<%= recipe_arr[j].imageUrl %>'); background-repeat: no-repeat; background-size: cover; background-position: center;">
             <div class="card-body my-filter">
               <a href="/details/<%= recipe_arr[j].id %>">
@@ -52,9 +52,6 @@
                   <button  class="btn btn-sm btn-danger text-end" style="text-align: right !important;" type="submit">Remove</button>
                 </form>
               <% } %>
-              
-              
-
             </div>
           </div>
         </div>
@@ -62,36 +59,3 @@
     </div>
   <% } %>
 </div>
-
-
-<script>
-  // Attach click event handler to favorite buttons
-  // document.querySelectorAll('.favorite-button').forEach(button => {
-  //     button.addEventListener('click', async () => {
-  //         const recipeId = button.getAttribute('data-recipe-id');
-  //         try {
-  //             const response = await fetch('/favorite-recipe', {
-  //                 method: 'POST',
-  //                 headers: {
-  //                     'Content-Type': 'application/json'
-  //                 },
-  //                 body: JSON.stringify({ recipeId })
-  //             });
-  //             if (response.ok) {
-  //                 // Update UI to indicate recipe is favorited
-  //                 button.innerHTML = '<i class="fas fa-heart"></i>'; // Filled heart icon
-  //             }
-  //         } catch (error) {
-  //             console.error('Error:', error);
-  //         }
-  //     });
-  // });
-
-  // function addToFavorites(event) {
-  //   event.target.classList.add('my-heart-button');
-  //   // document.getElementsByClassName("heart-button");
-  //   console.log("shld be red");
-  // }
-</script>
-
-
