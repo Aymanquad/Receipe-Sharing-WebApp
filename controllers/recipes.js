@@ -173,7 +173,7 @@ exports.postEditRecipe = (req ,res, next) =>{
   const recipe= req.body.recipe ;
   const visibility = req.body.visibility;
   const recipe_id = req.body.recipeId ;
-  let ratings;
+  let ratings = [];
 
   for(i=0; i<public_recipes.length ; i++){
     if(public_recipes[i].title == title){
@@ -244,6 +244,9 @@ exports.getDetailsOfRecipe = (req ,res , next) =>{
   const recipeId = req.params.recipeId ;
   const recipes = req.user.my_recipes;
   let username ;
+  let ratings;
+  let highest_rating;
+  let highest_rating_count = 1 ;
   const public_recipes = req.public.recipeObjects ;
   let recipeObj ;
 
@@ -260,6 +263,20 @@ exports.getDetailsOfRecipe = (req ,res , next) =>{
       if (public_recipes[i].id === recipeId) {
         recipeObj = public_recipes[i];
         username =  req.user.name;
+        ratings = public_recipes[i].ratings ;
+
+        if(ratings.length > 0){ //ratings are present
+          highest_rating = ratings[0].rating ;
+          for(let j=0 ; j < ratings.length ; j++){
+            if(ratings[j].rating > highest_rating){
+              highest_rating_count += 1;
+            }
+          }
+        }
+        else{
+          highest_rating = "No ratings given yet";
+          highest_rating_count = 0 ;
+        }
       }
     }
   }
@@ -270,6 +287,7 @@ exports.getDetailsOfRecipe = (req ,res , next) =>{
     recipeId : recipeId,
     recipeObj : recipeObj,
     userName : username, 
+    ratingStuff : {hr :highest_rating , hrc : highest_rating_count},
   });
 }
 
