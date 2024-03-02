@@ -86,7 +86,7 @@ app.use((req, res, next) => {
 });
 
 
-
+//API STUFF
 app.post('/search', (req, res) => { // Use POST method instead of GET for form submission
     const query = req.body.query;
     const options = {
@@ -106,7 +106,7 @@ app.post('/search', (req, res) => { // Use POST method instead of GET for form s
             res.render('error');
         } else {
             const data = JSON.parse(body);
-            console.log("data retreived is ...",data);
+            //console.log("data retreived is ...",data);
             res.render('recipe_stuff/search_recipes', { pgTitle : 'Search' , query, results: data.hits });
         }
     });

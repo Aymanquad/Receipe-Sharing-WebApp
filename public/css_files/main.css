@@ -163,13 +163,15 @@ width: 100%;
 
 
 
-/* navbar stuff */
+/*----------------------- navbar stuff--------------------------- */
 
 .navbar{
+    z-index: 100;
     backdrop-filter: blur(10px); /* Adjust the blur radius as needed */
     -webkit-backdrop-filter: blur(10px);
 }
 .translucent-navbar {
+    z-index: 100;
     background-color: rgba(0, 0, 0, 0.31);
     box-shadow: #212222;
   }

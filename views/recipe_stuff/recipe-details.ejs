@@ -8,7 +8,7 @@
 <br><br>
 
 <div class="container text-center my-4">
-    <h1 class="recipe-title"><%= recipeObj.title %></h1> <h5> highest rating : <% if(userName){%> <%= ratingStuff.hr %> ( <%= ratingStuff.hrc%> ) <%} %> </h5>
+    <h1 class="recipe-title"><%= recipeObj.title %></h1> <h5><% if(userName){%> highest rating :  <%= ratingStuff.hr %> ( <%= ratingStuff.hrc%> ) <%} %> </h5>
 </div>
 
 <div class="container recipe-details-container my-5">
