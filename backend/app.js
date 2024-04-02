@@ -86,6 +86,10 @@ app.use((req, res, next) => {
 });
 
 
+// Middleware to serve static files from the frontend directory
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+
 //API STUFF
 app.post('/search', (req, res) => { // Use POST method instead of GET for form submission
     const query = req.body.query;
