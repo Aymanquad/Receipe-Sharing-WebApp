@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth :{
-      api_key : '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'
+      api_key : process.env.NODEMAILER_API_KEY 
     }
   }));
   
@@ -199,7 +199,7 @@ exports.postresetPasswordPage = (req,res,next) =>{
                     subject : "Password Reset !",
                     html : `
                         <p> You requested a password Reset ? </p>
-                        <p> If yes click the following link.... <a href='http://localhost:3000/reset/${token}'>Link</a>  </p>`  
+                        <p> If yes click the following link.... <a href='http://localhost:3000/reset/${token}'>Link</a>  </p>`   //change the link at deployment
                     });
                 })
                 .then(result => {
