@@ -5,9 +5,16 @@ const bodyParser = require('body-parser');
 const csrf = require('csurf');                         // to use csrf(cross site response forgery) tokens to provide security to users
 const flash = require('connect-flash');
 const session = require('express-session');
+const cors = require('cors');
 const request = require('request');
 const mongoose = require('mongoose');
 const MongoDBStore = require('connect-mongodb-session')(session); //function
+
+app.use(
+    cors({
+      origin: ["http://localhost:3000", "https://receipe-sharing-webapp.onrender.com"],
+    })
+  );
 
 app.set('view engine' , 'ejs');       
 app.set('views' , 'views');     
@@ -15,7 +22,7 @@ app.set('views' , 'views');
 app.use(flash());
 
 const webApp = new MongoDBStore({
-    uri : `mongodb+srv://mohammedaymanquadri:Ayman2004@cluster0.ig68fbt.mongodb.net/Recipe_WebApp`,
+    uri : process.env.MONGO_URI,
     collection : "sessions"   // collection name 
 });
 
@@ -70,7 +77,7 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-    Public.findById('65ca500dcb91aba606f81d75')
+    Public.findById(process.env.PUBLIC_DB_ID)
         .then(public => {
             if(!public) {
                 console.log("No public found !");
@@ -98,8 +105,8 @@ app.post('/search', (req, res) => { // Use POST method instead of GET for form s
         url: 'https://api.edamam.com/search',
         qs: {
             q: query,
-            app_id: '42911b65',
-            app_key: '933aebee2f1ef3125c5240b8f46a6fdf',
+            app_id: process.env.FOOD_API_ID ,
+            app_key: process.env.FOOD_API_KEY ,
             to: 18 // Limit the number of results
         }
     };
@@ -124,7 +131,7 @@ app.use(errorRoute.get404);
 
  
 // app.listen(3000);
-mongoose.connect('mongodb+srv://mohammedaymanquadri:Ayman2004@cluster0.ig68fbt.mongodb.net/Recipe_WebApp')
+mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('Connected to MongoDB !'); 
         app.listen(3000);
