@@ -23,4 +23,4 @@ router.post('/reset',authController.postresetPasswordPage);
 router.post('/new-password',authController.postNewPasswordPage);
 
 
-module.exports = router;
+module.exports = router; 
