@@ -4,6 +4,7 @@ You can perform CRUD operations on your own recipes . If u find certain recipes 
 
 It's built upon nodejs along with express framework . It uses Monngoose to store data inside mongodb .
 Also includes advanced authentication and validation protocol for security . 
+It also has a special feature named 'Search Recipes' which uses Edamam Api to search for cool global recipes !
 
 
 Feel free to visit the website . You are just a signIn away from it ...
