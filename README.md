@@ -9,3 +9,5 @@ It also has a special feature named 'Search Recipes' which uses Edamam Api to se
 
 Feel free to visit the website . You are just a signIn away from it ...
 <a href="https://recipe-sharing-webapp.onrender.com" >My Recipe WebApp</a>
+
+(It may take about 20 to 30 seconds for the webpage to load :)  )
