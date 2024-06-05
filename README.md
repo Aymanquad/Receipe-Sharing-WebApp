@@ -25,7 +25,7 @@ Feel free to visit the website. You are just a sign-in away from exploring amazi
 
 ## Watch the Demo
 
-Check out the demo of our application on YouTube:
+Check out the demo of my application on YouTube:
 
 [![Watch the demo](https://img.youtube.com/vi/z-MulRu9_zQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=z-MulRu9_zQ)
 
